@@ -5,7 +5,7 @@ import { Modal } from "../Components/Modal";
 import { useState } from "react";
 
 export const Configuration = () => {
-  const { config, deleteCategory } = useNotes();
+  const { config, deleteCategory, addCategory } = useNotes();
 
   const [isOpen, setIsOpen] = useState(false);
   const [text, setText] = useState("");
@@ -26,6 +26,10 @@ export const Configuration = () => {
             onClose={setIsOpen}
             title={"Nueva categoria"}
             data={text}
+            aceptar={() => {
+              addCategory(text);
+              setIsOpen(false);
+            }}
           >
             <div className="w-full border-b-2 border-gray-300 py-2 mb-10 mt-10">
               <input

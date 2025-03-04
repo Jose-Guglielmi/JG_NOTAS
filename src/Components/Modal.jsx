@@ -1,7 +1,4 @@
-import { useNotes } from "./../Context/NotesContext";
-
-export const Modal = ({ isOpen, onClose, children, title, data }) => {
-  const { addCategory } = useNotes();
+export const Modal = ({ isOpen, onClose, children, title, aceptar }) => {
   if (!isOpen) return null;
 
   return (
@@ -11,16 +8,15 @@ export const Modal = ({ isOpen, onClose, children, title, data }) => {
         <div>{children}</div>
         <div className="flex justify-end">
           <button
-            className="text-white/50 pr-2 text-xl"
+            className="text-red-400 pr-5 text-xl"
             onClick={() => onClose(false)}
           >
             Cancelar
           </button>
           <button
-            className="text-white text-xl"
+            className="text-blue-500 text-xl"
             onClick={() => {
-              onClose(false);
-              addCategory(data);
+              aceptar();
             }}
           >
             Agregar

@@ -44,9 +44,20 @@ export const NotesProvider = ({ children }) => {
     return false;
   };
 
-  // Métodos para agregar configuracion
+  // Método para editar una nota
+  const editNote = (updatedFields, title) => {
+    try {
+      const updatedNote = notesService.editNote(title, updatedFields);
+      setNotes(notesService.getNotes()); // Actualizar la lista de notas
+      return updatedNote;
+    } catch (error) {
+      console.error("Error al editar la nota:", error.message);
+      throw error; // Relanzar el error para manejarlo en el componente
+    }
+  };
+
+  // Métodos para agregar configuración
   const addCategory = (newCategory) => {
-    // Validar que newCategory no sea un objeto vacío
     if (!newCategory || Object.keys(newCategory).length === 0) return false;
 
     if (configService.addCategory(newCategory)) {
@@ -61,11 +72,8 @@ export const NotesProvider = ({ children }) => {
   const deleteCategory = (categoryToDelete) => {
     const result = configService.deleteCategory(categoryToDelete);
     if (result.success) {
-      // Actualizar la lista de notas después de mover las notas a "Todas las notas"
       setNotes(notesService.getNotes());
-      // Actualizar la configuración
       setConfig(configService.getConfig());
-      // Si la categoría eliminada era la seleccionada, cambiar a "Todas las notas"
       if (selectedCategory === categoryToDelete) {
         setSelectedCategory("Todas las notas");
       }
@@ -111,6 +119,7 @@ export const NotesProvider = ({ children }) => {
     setSelectedCategory,
     addNote,
     addSubNote,
+    editNote, // Añadir el método editNote al contexto
     addCategory,
     deleteCategory,
     setFontSize,

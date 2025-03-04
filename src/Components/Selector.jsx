@@ -11,7 +11,7 @@ export const Selector = ({ options, onSelect, selectedCategory }) => {
   return (
     <>
       <div
-        className="max-w-sm mx-auto p-6 bg-gray-800 rounded-lg shadow-md flex justify-between"
+        className="p-6 bg-gray-800 rounded-lg shadow-md flex justify-between"
         onClick={() => {
           if (isOpen) {
             setIsOpen(false);
@@ -29,7 +29,7 @@ export const Selector = ({ options, onSelect, selectedCategory }) => {
         )}
       </div>
       {isOpen == true ? (
-        <div className="max-w-sm mx-auto p-6 bg-gray-800 rounded-lg shadow-md mt-2 ">
+        <div className=" p-1 bg-gray-800 rounded-lg shadow-md mt-2 ">
           {/* Contenedor de botones de idiomas */}
           <div className="space-y-3 flex flex-col">
             {options.map((category) => (

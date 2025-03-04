@@ -5,9 +5,10 @@ import { ViewCategory } from "./../Components/ViewCategory";
 
 export const Inicio = () => {
   return (
-    <>
+    <div>
       <Menu />
       <ViewCategory />
-    </>
+      <ViewNotes />
+    </div>
   );
 };
