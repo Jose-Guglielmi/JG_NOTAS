@@ -6,6 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="/src/index.css" rel="stylesheet" />
     <title>JG-NOTAS</title>
+    <style>
+      /* Estilo para el scroll en navegadores WebKit (Chrome, Safari, Edge) */
+      ::-webkit-scrollbar {
+        width: 1px; /* Ancho del scroll */
+        height: 1px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #f1f1f100; /* Color de fondo del track */
+        border-radius: 10px; /* Bordes redondeados */
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #88888800; /* Color del thumb (barra deslizante) */
+        border-radius: 10px; /* Bordes redondeados */
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #55555500; /* Color del thumb al pasar el mouse */
+      }
+
+      /* Estilo para el scroll en Firefox */
+      html {
+        scrollbar-width: thin; /* Ancho del scroll */
+        scrollbar-color: #888 #f1f1f1; /* Color del thumb y track */
+      }
+    </style>
   </head>
   <body class="bg-[#0F172A]">
     <div id="root"></div>
