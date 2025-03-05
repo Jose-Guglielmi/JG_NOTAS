@@ -8,7 +8,8 @@ export const ViewNotes = () => {
   const [isOpen2, setIsOpen2] = useState(false);
   const [isText, setIsText] = useState("");
   const [note, setNote] = useState({});
-  const { addNote, selectedCategory, getFilteredNotes, editNote } = useNotes();
+  const { addNote, selectedCategory, getFilteredNotes, editNote, deleteNote } =
+    useNotes();
 
   const notes = getFilteredNotes();
 
@@ -37,7 +38,11 @@ export const ViewNotes = () => {
                 setIsOpen2(true);
               }}
             />
-            <Trash className="mr-2" color="#ffff" />
+            <Trash
+              className="mr-2"
+              color="#ffff"
+              onClick={() => deleteNote(note.id)}
+            />
           </div>
         </div>
       ))}

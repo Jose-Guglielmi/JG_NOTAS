@@ -36,12 +36,56 @@ export const NotesProvider = ({ children }) => {
     setNotes(notesService.getNotes());
   };
 
-  const addSubNote = (noteTitle, subNote) => {
-    if (notesService.addSubNote(noteTitle, subNote)) {
+  // Método para eliminar una nota
+  const deleteNote = (noteId) => {
+    try {
+      notesService.deleteNote(noteId);
       setNotes(notesService.getNotes());
       return true;
+    } catch (error) {
+      console.error("Error al eliminar la nota:", error.message);
+      return false;
     }
-    return false;
+  };
+
+  // Método para agregar una sub-nota
+  const addSubNote = (noteId, subNote) => {
+    try {
+      const addedSubNote = notesService.addSubNote(noteId, subNote);
+      setNotes(notesService.getNotes());
+      return addedSubNote;
+    } catch (error) {
+      console.error("Error al agregar sub-nota:", error.message);
+      return false;
+    }
+  };
+
+  // Método para editar una sub-nota
+  const editSubNote = (noteId, subNoteId, updatedSubNote) => {
+    try {
+      const editedSubNote = notesService.editSubNote(
+        noteId,
+        subNoteId,
+        updatedSubNote
+      );
+      setNotes(notesService.getNotes());
+      return editedSubNote;
+    } catch (error) {
+      console.error("Error al editar sub-nota:", error.message);
+      return false;
+    }
+  };
+
+  // Método para eliminar una sub-nota
+  const deleteSubNote = (noteId, subNoteId) => {
+    try {
+      notesService.deleteSubNote(noteId, subNoteId);
+      setNotes(notesService.getNotes());
+      return true;
+    } catch (error) {
+      console.error("Error al eliminar sub-nota:", error.message);
+      return false;
+    }
   };
 
   // Método para editar una nota
@@ -118,8 +162,11 @@ export const NotesProvider = ({ children }) => {
     loading,
     setSelectedCategory,
     addNote,
+    deleteNote, // Nueva función para eliminar nota
     addSubNote,
-    editNote, // Añadir el método editNote al contexto
+    editSubNote, // Nueva función para editar sub-nota
+    deleteSubNote, // Nueva función para eliminar sub-nota
+    editNote,
     addCategory,
     deleteCategory,
     setFontSize,

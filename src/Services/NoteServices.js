@@ -68,4 +68,124 @@ export const notesService = {
     localStorage.setItem("notes", JSON.stringify(notes));
     return notes[noteIndex];
   },
+
+  // Eliminar una nota por su ID
+  deleteNote(noteId) {
+    if (!noteId || typeof noteId !== "string") {
+      throw new Error("Note ID is required and must be a string");
+    }
+
+    const notes = this.getNotes();
+    const noteIndex = notes.findIndex((note) => note.id === noteId);
+
+    if (noteIndex === -1) {
+      throw new Error(`Note with ID "${noteId}" not found`);
+    }
+
+    notes.splice(noteIndex, 1);
+    localStorage.setItem("notes", JSON.stringify(notes));
+    return true;
+  },
+
+  // Agregar una sub-nota a una nota específica
+  addSubNote(noteId, subNote) {
+    if (!noteId || typeof noteId !== "string") {
+      throw new Error("Note ID is required and must be a string");
+    }
+
+    if (!subNote || typeof subNote !== "object") {
+      throw new Error("Sub-note must be a valid object");
+    }
+
+    const notes = this.getNotes();
+    const noteIndex = notes.findIndex((note) => note.id === noteId);
+
+    if (noteIndex === -1) {
+      throw new Error(`Note with ID "${noteId}" not found`);
+    }
+
+    // Agregar un ID único a la sub-nota
+    subNote.id = Date.now().toString();
+
+    // Agregar la sub-nota al array de sub-notas
+    if (!notes[noteIndex].subNotes) {
+      notes[noteIndex].subNotes = [];
+    }
+    notes[noteIndex].subNotes.push(subNote);
+
+    localStorage.setItem("notes", JSON.stringify(notes));
+    return subNote;
+  },
+
+  // Modificar una sub-nota específica
+  editSubNote(noteId, subNoteId, updatedSubNote) {
+    if (!noteId || typeof noteId !== "string") {
+      throw new Error("Note ID is required and must be a string");
+    }
+
+    if (!subNoteId || typeof subNoteId !== "string") {
+      throw new Error("Sub-note ID is required and must be a string");
+    }
+
+    if (!updatedSubNote || typeof updatedSubNote !== "object") {
+      throw new Error("Updated sub-note must be a valid object");
+    }
+
+    const notes = this.getNotes();
+    const noteIndex = notes.findIndex((note) => note.id === noteId);
+
+    if (noteIndex === -1) {
+      throw new Error(`Note with ID "${noteId}" not found`);
+    }
+
+    const subNoteIndex = notes[noteIndex].subNotes.findIndex(
+      (sub) => sub.id === subNoteId
+    );
+
+    if (subNoteIndex === -1) {
+      throw new Error(`Sub-note with ID "${subNoteId}" not found`);
+    }
+
+    // Modificar la sub-nota
+    notes[noteIndex].subNotes[subNoteIndex] = {
+      ...notes[noteIndex].subNotes[subNoteIndex],
+      ...updatedSubNote,
+      id: subNoteId, // Mantener el ID original
+    };
+
+    localStorage.setItem("notes", JSON.stringify(notes));
+    return notes[noteIndex].subNotes[subNoteIndex];
+  },
+
+  // Eliminar una sub-nota específica
+  deleteSubNote(noteId, subNoteId) {
+    if (!noteId || typeof noteId !== "string") {
+      throw new Error("Note ID is required and must be a string");
+    }
+
+    if (!subNoteId || typeof subNoteId !== "string") {
+      throw new Error("Sub-note ID is required and must be a string");
+    }
+
+    const notes = this.getNotes();
+    const noteIndex = notes.findIndex((note) => note.id === noteId);
+
+    if (noteIndex === -1) {
+      throw new Error(`Note with ID "${noteId}" not found`);
+    }
+
+    const subNoteIndex = notes[noteIndex].subNotes.findIndex(
+      (sub) => sub.id === subNoteId
+    );
+
+    if (subNoteIndex === -1) {
+      throw new Error(`Sub-note with ID "${subNoteId}" not found`);
+    }
+
+    // Eliminar la sub-nota
+    notes[noteIndex].subNotes.splice(subNoteIndex, 1);
+
+    localStorage.setItem("notes", JSON.stringify(notes));
+    return true;
+  },
 };
