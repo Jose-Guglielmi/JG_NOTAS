@@ -1,15 +1,30 @@
 import { NotebookPen, Trash, Pencil } from "lucide-react";
 import { Modal } from "./Modal";
 import { useNotes } from "./../Context/NotesContext";
-import { useState } from "react";
+import { Selector } from "./Selector";
+import { useState, useEffect } from "react";
 
 export const ViewNotes = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpen2, setIsOpen2] = useState(false);
+  const [isOpen3, setIsOpen3] = useState(false);
   const [isText, setIsText] = useState("");
   const [note, setNote] = useState({});
-  const { addNote, selectedCategory, getFilteredNotes, editNote, deleteNote } =
-    useNotes();
+  const {
+    config,
+    addNote,
+    selectedCategory,
+    getFilteredNotes,
+    editNote,
+    deleteNote,
+  } = useNotes();
+  const [isSelectedCategory, setIsSelectedCategory] = useState("");
+
+  useEffect(() => {
+    return () => {
+      setIsSelectedCategory(selectedCategory);
+    };
+  }, [selectedCategory]);
 
   const notes = getFilteredNotes();
 
@@ -41,7 +56,10 @@ export const ViewNotes = () => {
             <Trash
               className="mr-2"
               color="#ffff"
-              onClick={() => deleteNote(note.id)}
+              onClick={() => {
+                setIsOpen3(true);
+                setNote(note);
+              }}
             />
           </div>
         </div>
@@ -51,7 +69,7 @@ export const ViewNotes = () => {
         onClose={() => setIsOpen(false)}
         title={"Nueva nota"}
         aceptar={() => {
-          addNote(isText, selectedCategory);
+          addNote(isText, isSelectedCategory);
           setIsOpen(false);
         }}
       >
@@ -61,6 +79,13 @@ export const ViewNotes = () => {
             placeholder={"Nombre de la Nota"}
             onChange={(e) => setIsText(e.target.value)}
             className="w-full outline-none bg-transparent text-white text-lg"
+          />
+        </div>
+        <div className="mb-5 bg-gray-700 rounded-lg p-1">
+          <Selector
+            options={config.categories}
+            onSelect={setIsSelectedCategory}
+            selectedCategory={isSelectedCategory}
           />
         </div>
       </Modal>
@@ -82,6 +107,17 @@ export const ViewNotes = () => {
           />
         </div>
       </Modal>
+      <Modal
+        isOpen={isOpen3}
+        title={"¿Desea eliminar la nota?"}
+        aceptar={() => {
+          deleteNote(note.id);
+          setIsOpen3(false);
+        }}
+        onClose={() => {
+          setIsOpen3(false);
+        }}
+      ></Modal>
     </div>
   );
 };
