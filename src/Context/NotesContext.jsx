@@ -14,7 +14,7 @@ export const NotesProvider = ({ children }) => {
   const [config, setConfig] = useState({
     categories: [],
     FontSize: 25,
-    DefaultCategory: "",
+    DefaultCategory: "Todas las notas",
   });
   const [selectedCategory, setSelectedCategory] = useState("");
   const [loading, setLoading] = useState(true);
@@ -29,6 +29,7 @@ export const NotesProvider = ({ children }) => {
     setNotes(appNotes);
     setLoading(false);
   }, []);
+  console.log("Context: " + selectedCategory);
 
   // Métodos para manipular notas
   const addNote = (title, category, subNotes = []) => {

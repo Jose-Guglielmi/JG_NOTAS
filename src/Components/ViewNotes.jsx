@@ -19,13 +19,13 @@ export const ViewNotes = () => {
     deleteNote,
   } = useNotes();
   const [isSelectedCategory, setIsSelectedCategory] = useState("");
-
+  console.log("Antes: " + selectedCategory);
   useEffect(() => {
-    return () => {
-      setIsSelectedCategory(selectedCategory);
-    };
+    setIsSelectedCategory(selectedCategory);
   }, [selectedCategory]);
+  console.log("despues: " + selectedCategory);
 
+  console.log("view: " + isSelectedCategory);
   const notes = getFilteredNotes();
 
   return (
